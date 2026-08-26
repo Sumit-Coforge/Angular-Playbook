@@ -1,0 +1,59 @@
+<section class="panel">
+  <h1>🎯 Directives &amp; Control Flow</h1>
+  <p class="lead">
+    Built-in control flow (<code>&#64;if</code>, <code>&#64;for</code>, <code>&#64;switch</code>),
+    the <code>NgClass</code> / <code>NgStyle</code> attribute directives, and a custom
+    <code>appHighlight</code> attribute directive.
+  </p>
+
+  <div
+    class="card"
+    [ngClass]="{ 'card--dark': darkCard() }"
+    [ngStyle]="{ fontSize: fontScale() + 'rem' }"
+  >
+    <h2>NgClass / NgStyle</h2>
+    <div class="actions">
+      <button (click)="toggleTheme()">Toggle theme ({{ darkCard() ? 'dark' : 'light' }})</button>
+      <button (click)="decreaseFont()">A-</button>
+      <button (click)="increaseFont()">A+</button>
+    </div>
+    <p>This card's background/text (via <code>ngClass</code>) and font size (via <code>ngStyle</code>) are driven by signals.</p>
+  </div>
+
+  <div class="card">
+    <h2>Custom attribute directive (hover to highlight)</h2>
+    <div class="highlight-row">
+      @for (member of members; track member.name) {
+        <div class="member" appHighlight="#dbeafe">
+          <span>{{ member.name }}</span>
+          @switch (member.status) {
+            @case ('active') {
+              <span class="badge badge--active">Active</span>
+            }
+            @case ('pending') {
+              <span class="badge badge--pending">Pending</span>
+            }
+            @default {
+              <span class="badge badge--inactive">Inactive</span>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>&#64;for / &#64;if control flow</h2>
+    @if (members.length > 0) {
+      <ul class="members">
+        @for (member of members; track member.name; let i = $index, isFirst = $first) {
+          <li [class.first]="isFirst">
+            {{ i + 1 }}. {{ member.name }}
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>No members found.</p>
+    }
+  </div>
+</section>

@@ -1,0 +1,77 @@
+.card {
+  transition: background 0.2s ease, color 0.2s ease, font-size 0.2s ease;
+
+  &--dark {
+    background: #1f2937;
+    color: #f3f4f6;
+
+    .actions button {
+      background: #374151;
+      color: #f9fafb;
+      border-color: #4b5563;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.highlight-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.member {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  background: var(--surface-alt);
+  transition: background-color 0.15s ease;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+
+  &--active {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  &--pending {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  &--inactive {
+    background: #f3f4f6;
+    color: #4b5563;
+  }
+}
+
+.members {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  li {
+    padding: 0.4rem 0.6rem;
+    border-radius: 8px;
+
+    &.first {
+      background: var(--surface-alt);
+      font-weight: 600;
+    }
+  }
+}

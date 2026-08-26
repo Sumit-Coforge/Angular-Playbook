@@ -1,0 +1,65 @@
+<section class="panel">
+  <h1>⚡ Signals</h1>
+  <p class="lead">
+    <code>signal()</code> holds state, <code>computed()</code> derives values reactively, and
+    <code>effect()</code> reacts to changes as side effects — all without RxJS subscriptions.
+  </p>
+
+  <div class="card counter">
+    <h2>Counter</h2>
+    <div class="counter__value">{{ count() }}</div>
+    <p>Doubled: <strong>{{ doubled() }}</strong> · {{ isEven() ? 'Even' : 'Odd' }}</p>
+    <div class="actions">
+      <button (click)="decrement()">− Decrement</button>
+      <button (click)="increment()">+ Increment</button>
+      <button class="ghost" (click)="reset()">Reset</button>
+    </div>
+    <div class="history">
+      <span>History:</span>
+      @for (value of history(); track $index) {
+        <span class="chip">{{ value }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Signal-powered Task Tracker</h2>
+    <p>
+      {{ store.completedCount() }} / {{ store.totalCount() }} done
+      ({{ store.progress() }}%) — computed live from the task list signal.
+    </p>
+    <div class="progress">
+      <div class="progress__bar" [style.width.%]="store.progress()"></div>
+    </div>
+
+    <form class="add-task" (submit)="$event.preventDefault(); addTask()">
+      <input
+        type="text"
+        placeholder="New task title"
+        [value]="newTaskTitle()"
+        (input)="onTitleInput($any($event.target).value)"
+      />
+      <select [value]="newTaskPriority()" (change)="onPriorityChange($any($event.target).value)">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <ul class="task-list">
+      @for (task of store.tasks(); track task.id) {
+        <li [class.done]="task.done">
+          <label>
+            <input type="checkbox" [checked]="task.done" (change)="store.toggleTask(task.id)" />
+            {{ task.title }}
+          </label>
+          <span class="priority" [attr.data-priority]="task.priority">{{ task.priority }}</span>
+          <button class="icon-btn" (click)="store.removeTask(task.id)" aria-label="Remove task">✕</button>
+        </li>
+      } @empty {
+        <li class="empty">No tasks yet — add one above.</li>
+      }
+    </ul>
+  </div>
+</section>

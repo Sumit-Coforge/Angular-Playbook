@@ -1,0 +1,17 @@
+<header class="app-header">
+  <div class="brand">
+    <span class="brand__logo">🅰️</span>
+    <span class="brand__title">{{ title }}</span>
+  </div>
+  <nav>
+    @for (link of navLinks; track link.path) {
+      <a [routerLink]="link.path" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: link.path === '/' }">
+        {{ link.label }}
+      </a>
+    }
+  </nav>
+</header>
+
+<main class="app-main">
+  <router-outlet />
+</main>

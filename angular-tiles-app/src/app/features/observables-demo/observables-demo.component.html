@@ -1,0 +1,46 @@
+<section class="panel">
+  <h1>🌊 Observables</h1>
+  <p class="lead">
+    RxJS streams: a ticking <code>interval()</code> bridged to a signal via <code>toSignal()</code>,
+    a one-shot <code>of().pipe(delay())</code> fetch, and a live search using
+    <code>BehaviorSubject</code> + <code>switchMap</code> consumed with the <code>async</code> pipe.
+  </p>
+
+  <div class="card">
+    <h2>Live clock (interval → signal)</h2>
+    <div class="clock">{{ tick() }}<span>s</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Quote of the day (async fetch)</h2>
+    <button (click)="fetchQuote()" [disabled]="loadingQuote()">
+      {{ loadingQuote() ? 'Loading…' : 'Get a quote' }}
+    </button>
+    @if (quoteOfTheDay(); as quote) {
+      <blockquote>
+        “{{ quote.text }}”
+        <footer>— {{ quote.author }}</footer>
+      </blockquote>
+    }
+  </div>
+
+  <div class="card">
+    <h2>Reactive search (BehaviorSubject + switchMap)</h2>
+    <input
+      type="text"
+      placeholder="Search quotes or authors…"
+      [value]="searchTerm"
+      (input)="onSearchInput($any($event.target).value)"
+    />
+    <ul class="quote-list">
+      @for (quote of (filteredQuotes$ | async); track quote.text) {
+        <li>
+          <p>{{ quote.text }}</p>
+          <span>{{ quote.author }}</span>
+        </li>
+      } @empty {
+        <li class="empty">No matches.</li>
+      }
+    </ul>
+  </div>
+</section>

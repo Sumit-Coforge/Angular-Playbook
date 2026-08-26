@@ -1,0 +1,77 @@
+<section class="panel">
+  <h1>📝 Forms</h1>
+  <p class="lead">
+    A <code>ReactiveFormsModule</code> form with typed controls and validators, next to a classic
+    <code>[(ngModel)]</code> template-driven form.
+  </p>
+
+  <div class="forms-grid">
+    <div class="card">
+      <h2>Reactive form</h2>
+      <form [formGroup]="taskForm" (ngSubmit)="submitReactiveForm()">
+        <label>
+          Title
+          <input type="text" formControlName="title" placeholder="e.g. Refactor auth module" />
+        </label>
+        @if (title.invalid && title.touched) {
+          <p class="error">
+            @if (title.errors?.['required']) { Title is required. }
+            @if (title.errors?.['minlength']) { Title must be at least 3 characters. }
+          </p>
+        }
+
+        <label>
+          Priority
+          <select formControlName="priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </label>
+
+        <label>
+          Due date
+          <input type="date" formControlName="dueDate" />
+        </label>
+
+        <button type="submit">Add task</button>
+
+        @if (submittedTask(); as submitted) {
+          <p class="success">Added “{{ submitted }}” to the signal-based task list ✅</p>
+        }
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Template-driven form</h2>
+      <form #newsletterForm="ngForm" (ngSubmit)="submitNewsletterForm()">
+        <label>
+          Name
+          <input type="text" name="name" [(ngModel)]="newsletter.name" required minlength="2" #nameField="ngModel" />
+        </label>
+        @if (nameField.invalid && nameField.touched) {
+          <p class="error">Name must be at least 2 characters.</p>
+        }
+
+        <label>
+          Email
+          <input type="email" name="email" [(ngModel)]="newsletter.email" required email #emailField="ngModel" />
+        </label>
+        @if (emailField.invalid && emailField.touched) {
+          <p class="error">Enter a valid email address.</p>
+        }
+
+        <label class="checkbox">
+          <input type="checkbox" name="subscribe" [(ngModel)]="newsletter.subscribe" />
+          Subscribe to updates
+        </label>
+
+        <button type="submit" [disabled]="newsletterForm.invalid">Subscribe</button>
+
+        @if (newsletterSubmitted()) {
+          <p class="success">Thanks {{ newsletter.name }}, you're subscribed with {{ newsletter.email }} 🎉</p>
+        }
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="panel">
+  <h1>🔧 Pipes</h1>
+  <p class="lead">
+    Built-in pipes (<code>date</code>, <code>currency</code>, <code>percent</code>, <code>json</code>)
+    combined with three custom pipes: <code>truncate</code>, <code>timeAgo</code> and <code>filterBy</code>.
+  </p>
+
+  <div class="card">
+    <h2>Built-in pipes</h2>
+    <ul class="kv">
+      <li><span>Today</span><strong>{{ today | date: 'fullDate' }}</strong></li>
+      <li><span>Short time</span><strong>{{ today | date: 'shortTime' }}</strong></li>
+    </ul>
+
+    <table class="products">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Discount</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products; track product.name) {
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description | truncate: 40 }}</td>
+            <td>{{ product.price | currency: 'USD' }}</td>
+            <td>{{ product.discount | percent }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Custom pipes on the task list</h2>
+    <div class="filter-row">
+      <label>Filter by priority:</label>
+      <select (change)="setFilter($any($event.target).value)">
+        <option value="all">All</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </div>
+
+    <ul class="task-list">
+      @for (task of (store.tasks() | filterBy: 'priority':priorityFilter()); track task.id) {
+        <li>
+          <span class="title">{{ task.title | truncate: 30 }}</span>
+          <span class="meta">{{ task.createdAt | timeAgo }}</span>
+        </li>
+      } @empty {
+        <li class="empty">No tasks match this filter.</li>
+      }
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>json pipe (debugging aid)</h2>
+    <pre>{{ products[0] | json }}</pre>
+  </div>
+</section>
